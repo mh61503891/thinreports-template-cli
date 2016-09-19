@@ -1,3 +1,5 @@
+[![Version](https://img.shields.io/gem/v/thinreports-template-cli.svg)](https://rubygems.org/gems/thinreports-template-cli)
+
 # thinreports-template-cli
 
 ## Installation
