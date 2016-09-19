@@ -46,7 +46,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/thinreports-template-cli.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mh61503891/thinreports-template-cli.
 
 
 ## License
