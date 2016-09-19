@@ -1,4 +1,4 @@
-# Thinreports::Template::Cli
+# thinreports-template-cli
 
 ## Installation
 
@@ -19,14 +19,32 @@ Or install it yourself as:
 ## Usage
 
 ```bash
+$ thinreports-template-cli help
+Commands:
+  thinreports-template-cli config --layout=LAYOUT    # Create config file for .tlf
+  thinreports-template-cli generate --layout=LAYOUT  # Generate a PDF file from .tlf to stdout
+  thinreports-template-cli help [COMMAND]            # Describe available commands or one specific command
+  thinreports-template-cli info --layout=LAYOUT      # Display information for .tlf
+```
+
+```bash
 $ thinreports-template-cli info --layout=~/template.tlf
-$ thinreports-template-cli init --layout=~/template.tlf > config.yml
+```
+
+```bash
+$ thinreports-template-cli config --layout=~/template.tlf > config.yml
 $ cat ~/config.yml
 ---
 name: Taro Tottori
 item: Toripy Plush Toy
 price: 2980
+```
+
+```bash
 $ thinreports-template-cli generate --layout=~/template.tlf --config=~/config.yml > example.pdf
+```
+
+```bash
 $ thinreports-template-cli generate --layout=~/template.tlf --config=~/config.yml | lpr -P ApeosPort_V_C3375__aa_bb_cc_
 ```
 
