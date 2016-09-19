@@ -1,9 +1,5 @@
 # Thinreports::Template::Cli
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/thinreports/template/cli`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,7 +18,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+$ thinreports-template-cli info --layout=~/template.tlf
+$ thinreports-template-cli init --layout=~/template.tlf > config.yml
+$ cat ~/config.yml
+---
+name: Taro Tottori
+item: Toripy Plush Toy
+price: 2980
+$ thinreports-template-cli generate --layout=~/template.tlf --config=~/config.yml > example.pdf
+$ thinreports-template-cli generate --layout=~/template.tlf --config=~/config.yml | lpr -P ApeosPort_V_C3375__aa_bb_cc_
+```
 
 ## Development
 
@@ -38,4 +44,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
