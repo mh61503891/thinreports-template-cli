@@ -41,7 +41,7 @@ module Thinreports; module Template; module CLI; class Executor
     })
   end
 
-  def init
+  def config
     @config = {}
     @report.default_layout.format.shapes.values.map do |shape|
       @config[shape.id] = shape.value

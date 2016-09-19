@@ -17,10 +17,10 @@ module Thinreports; module Template; module CLI; class Commands < Thor
     print Thinreports::Template::CLI::Executor.new(get_report, get_config).info
   end
 
-  desc 'init', 'Create config file for .tlf'
+  desc 'config', 'Create config file for .tlf'
   option :layout, required:true
-  def init
-    print Thinreports::Template::CLI::Executor.new(get_report).init
+  def config
+    print Thinreports::Template::CLI::Executor.new(get_report).config
   end
 
   no_commands {
