@@ -4,18 +4,6 @@
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'thinreports-template-cli'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install thinreports-template-cli
 
 ## Usage
