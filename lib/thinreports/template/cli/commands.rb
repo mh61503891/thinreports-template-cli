@@ -30,7 +30,7 @@ module Thinreports; module Template; module CLI; class Commands < Thor
     end
 
     def get_config
-      options.config && YAML.load_file(options.config) || {}
+      options.config && YAML.load_file(File.expand_path(options.config)) || {}
     end
 
   }
