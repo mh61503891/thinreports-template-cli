@@ -5,7 +5,6 @@ require 'thinreports/template/cli/version'
 Gem::Specification.new do |spec|
   spec.name          = 'thinreports-template-cli'
   spec.version       = Thinreports::Template::CLI::VERSION
-  spec.authors       = ['mh61503891']
   spec.email         = ['msyk@hgsn.info']
 
   spec.summary       = %q{A command line tool to generate a PDF file from YAML config file and .tlf}
