@@ -7,20 +7,20 @@ module Thinreports; module Template; module CLI; class Commands < Thor
   option :layout, required:true
   option :config
   def generate
-    print Thinreports::Template::CLI::Executor.new(get_report, get_config).generate
+    puts Thinreports::Template::CLI::Executor.new(get_report, get_config).generate
   end
 
   desc 'info', 'Display information for .tlf'
   option :layout, required:true
   option :config
   def info
-    print Thinreports::Template::CLI::Executor.new(get_report, get_config).info
+    puts Thinreports::Template::CLI::Executor.new(get_report, get_config).info
   end
 
   desc 'config', 'Create config file for .tlf'
   option :layout, required:true
   def config
-    print Thinreports::Template::CLI::Executor.new(get_report).config
+    puts Thinreports::Template::CLI::Executor.new(get_report).config
   end
 
   no_commands {
