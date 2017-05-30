@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'thinreports', '0.10.0'
   spec.add_dependency 'thor', '0.19.4'
   spec.add_dependency 'wareki', '0.1.3'
-  spec.add_dependency 'kosi', '1.0.0'
+  spec.add_dependency 'terminal-table', '1.8.0'
   spec.add_development_dependency 'bundler', '~> 1.15'
   spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'minitest', '~> 5.0'

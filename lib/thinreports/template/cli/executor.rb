@@ -1,7 +1,7 @@
 require 'thinreports'
 require 'yaml'
 require 'wareki'
-require 'kosi'
+require 'terminal-table'
 
 module Thinreports; module Template; module CLI; class Executor
 
@@ -26,19 +26,21 @@ module Thinreports; module Template; module CLI; class Executor
   end
 
   def info
-    kosi = Kosi::Table.new({
-      align: Kosi::Align::TYPE::LEFT,
-      header: %w(b:id b:type b:display? bf:value tb:has_format? tb:format_type)
-    })
-    return kosi.render(@report.default_layout.format.shapes.values.map { |s|
-      record = [s.id, s.type, s.display?, s.value]
-      case s.type
-      when Thinreports::Core::Shape::TextBlock::TYPE_NAME
-        record += [s.has_format?, s.format_type]
-      else
-        record += [nil, nil]
+    return Terminal::Table.new(title:@report.default_layout.format.report_title) do |t|
+      t << %w(b:id b:type b:display? bf:value tb:has_format? tb:format_type)
+      t << :separator
+      @report.default_layout.format.shapes.values.map { |s|
+        record = [s.id, s.type, s.display?, s.value]
+        case s.type
+        when Thinreports::Core::Shape::TextBlock::TYPE_NAME
+          record += [s.has_format?, s.format_type]
+        else
+          record += [nil, nil]
+        end
+      }.each do |s|
+        t << s
       end
-    })
+    end
   end
 
   def config
