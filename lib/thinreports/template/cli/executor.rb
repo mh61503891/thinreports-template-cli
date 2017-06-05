@@ -5,9 +5,11 @@ require 'terminal-table'
 
 module Thinreports; module Template; module CLI; class Executor
 
-  def initialize(report, config=nil)
-    @report = report
+  def initialize(report, config=nil, options=nil)
+    @report =  Thinreports::Report.new(layout:File.expand_path(report))
     @config = config
+    @options = options
+    $stderr.puts @options
   end
 
   def generate
@@ -38,18 +40,20 @@ module Thinreports; module Template; module CLI; class Executor
           format_value << s.format_datetime_format if s.format_datetime_format
           format_value << "delimiter=[#{s.format_number_delimiter}]" if s.format_number_delimiter
           format_value << "/precision=[#{s.format_number_precision}]" if s.format_number_precision
-          t << [s.id, s.ref_id, s.display?, s.multiple?, s.value, s.format_base, s.format_type, format_value, s.attributes['description']]
+          t << [s.id, s.ref_id, s.display?, s.multiple?, (@config[s.id] || s.value), s.format_base, s.format_type, format_value, s.attributes['description']]
         end
       end
     end
   end
 
   def config
-    @config = {}
+    @config2 = {}
     @report.default_layout.format.shapes.values.map do |shape|
-      @config[shape.id] = shape.value
+      if shape.type ==  Thinreports::Core::Shape::TextBlock::TYPE_NAME
+        @config2[shape.id] = (@config[shape.id] || shape.value)
+      end
     end
-    YAML.dump(@config)
+    YAML.dump(@config2)
   end
 
 end; end; end; end
