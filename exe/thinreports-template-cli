@@ -2,4 +2,5 @@
 
 require 'thinreports/template/cli'
 
+Thinreports::Template::CLI::Commands.build(ARGV)
 Thinreports::Template::CLI::Commands.start(ARGV)

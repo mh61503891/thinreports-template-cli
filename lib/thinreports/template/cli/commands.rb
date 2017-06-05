@@ -1,37 +1,58 @@
 require 'thor'
-require 'thinreports/template/cli/executor'
+require 'thinreports/template/cli/actions'
 
-module Thinreports; module Template; module CLI; class Commands < Thor
+module Thinreports::Template::CLI::Base
 
-  desc 'generate', 'Generate a PDF file from .tlf to stdout'
-  option :layout, required:true
-  option :config
-  def generate
-    puts Thinreports::Template::CLI::Executor.new(get_report, get_config).generate
+  def build(argv)
+    layout = argv[1]
+    return unless layout && File.exists?(layout) && File.extname(layout) == '.tlf'
+    define_commands(get_options(layout).values&.map(&:id))
   end
 
-  desc 'info', 'Display information for .tlf'
-  option :layout, required:true
-  option :config
-  def info
-    puts Thinreports::Template::CLI::Executor.new(get_report, get_config).info
+  def define_commands(params=[])
+    define_info(params)
+    define_generate(params)
+    define_config(params)
   end
 
-  desc 'config', 'Create config file for .tlf'
-  option :layout, required:true
-  def config
-    puts Thinreports::Template::CLI::Executor.new(get_report).config
+  private
+
+  def define_command(name, usage, description, params, &block)
+    desc(usage, description)
+    class_option(:config)
+    params.each{ |param| method_option(param) }
+    define_method(name){ |report| yield(report) }
   end
 
-  no_commands {
+  def define_info(params)
+    define_command(:info, 'info TLF', 'Display info of a TLF file', params) { |report|
+      puts get_executor(report, options).info
+    }
+  end
 
-    def get_report
-      return Thinreports::Report.new(layout:File.expand_path(options.layout))
-    end
+  def define_generate(params)
+    define_command(:generate, 'generate TLF', 'Generate a PDF file from a TLF file', params) { |report|
+      puts get_executor(report, options).generate
+    }
+  end
 
-    def get_config
-      options.config && YAML.load_file(File.expand_path(options.config)) || {}
-    end
+  def define_config(params)
+    define_command(:config, 'config TLF', 'Generate a config file from a TLF file', params) { |report|
+      puts get_executor(report, options).config
+    }
+  end
 
-  }
-end; end; end; end
+  def get_options(tlf)
+    Thinreports::Report.new(layout:File.expand_path(tlf)).default_layout.format.shapes if tlf
+  end
+
+  def get_executor(report, options)
+    Thinreports::Template::CLI::Actions.new(report, options.dup)
+  end
+
+end
+
+class Thinreports::Template::CLI::Commands < Thor
+  extend Thinreports::Template::CLI::Base
+  define_commands()
+end

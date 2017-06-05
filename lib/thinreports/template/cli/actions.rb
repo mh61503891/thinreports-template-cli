@@ -3,7 +3,7 @@ require 'yaml'
 require 'wareki'
 require 'terminal-table'
 
-module Thinreports; module Template; module CLI; class Executor
+module Thinreports; module Template; module CLI; class Actions
 
   def initialize(report, config=nil, options=nil)
     @report =  Thinreports::Report.new(layout:File.expand_path(report))
