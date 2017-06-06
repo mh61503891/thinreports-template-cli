@@ -1,54 +1,61 @@
+require 'thinreports'
 require 'thor'
 require 'thinreports/template/cli/actions'
 
-module Thinreports::Template::CLI::DSL
-
-  def define_options(usage, description, params)
-    desc(usage, description)
-    class_option(:config)
-    params.each{ |param| method_option(param) }
+module Thinreports::Template::CLI::Utils
+  refine Thinreports::Report::Base do
+    def textblocks
+      default_layout.format.shapes.values.select{ |s|
+        s.type == Thinreports::Core::Shape::TextBlock::TYPE_NAME
+      }
+    end
   end
-
 end
+using Thinreports::Template::CLI::Utils
 
 module Thinreports::Template::CLI::Base
 
-  include Thinreports::Template::CLI::DSL
-
-  def build(argv={})
-    layout = argv[1]
-    if layout && File.exists?(layout) && File.extname(layout) == '.tlf'
-      params = Thinreports::Report.new(layout:File.expand_path(layout)).default_layout.format.shapes.values.map(&:id)
+  def build(argv=[])
+    if layout = argv[1] && layout && FileTest.file?(layout)
+      params = Thinreports::Report.new(layout:layout).textblocks.map(&:id)
       define_commands(params)
     else
       define_commands()
     end
   end
 
+  private
+
   def define_commands(params=[])
-    define_info(params)
-    define_generate(params)
-    define_config(params)
+    define_info_command(params)
+    define_generate_command(params)
+    define_config_command(params)
   end
 
-  def define_info(params)
-    define_options('info TLF', 'Display info of a TLF file', params)
-    define_method(:info){ |report|
-      puts Thinreports::Template::CLI::Actions.new(report, options.dup).info
+  def define_info_command(params)
+    desc('info TLF', 'Display info of a TLF file')
+    class_option(:config)
+    params.each{ |param| method_option(param) }
+    define_method(:info){ |style|
+      puts Thinreports::Template::CLI::Actions.new(style, options.dup).info
     }
   end
 
-  def define_generate(params)
-    define_options('generate TLF', 'Generate a PDF file from a TLF file', params)
-    define_method(:generate){ |report|
-      puts Thinreports::Template::CLI::Actions.new(report, options.dup).generate
+  def define_generate_command(params)
+    desc('generate TLF', 'Generate a PDF file from a TLF file')
+    class_option(:config)
+    params.each{ |param| method_option(param) }
+    define_method(:generate){ |style|
+      puts Thinreports::Template::CLI::Actions.new(style, options.dup).generate
     }
   end
 
-  def define_config(params)
-    define_options('config TLF', 'Generate a config file from a TLF file', params)
-    define_method(:config){ |report|
-      puts Thinreports::Template::CLI::Actions.new(report, options.dup).config
+  def define_config_command(params)
+    desc('config TLF', 'Generate a config file from a TLF file')
+    class_option(:config)
+    params.each{ |param| method_option(param) }
+    define_method(:config){ |style|
+      puts Thinreports::Template::CLI::Actions.new(style, options.dup).config
     }
   end
 
