@@ -1,13 +1,19 @@
 require 'thinreports'
 require 'yaml'
-require 'wareki'
+require 'date'
+require 'era_ja'
 require 'terminal-table'
+
+class String
+  def strftime(format)
+    DateTime.parse(self).to_era(format)
+  end
+end
 
 class Thinreports::Template::CLI::Actions
 
-  def initialize(layout, params=nil, options=nil)
+  def initialize(layout, options)
     @report = Thinreports::Report.new(layout:File.expand_path(layout))
-    @params = params
     @options = options
   end
 
@@ -17,12 +23,12 @@ class Thinreports::Template::CLI::Actions
       case shape.type
       when Thinreports::Core::Shape::TextBlock::TYPE_NAME
         if shape.has_format? && shape.format_type == 'datetime'
-          @params[shape.id] ||= Date.today
+          @options[shape.id] ||= shape.value.empty? ? DateTime.now.iso8601 : shape.value
         end
       else
       end
     end
-    @report.page.values(@params)
+    @report.page.values(@options)
     @report.generate
   end
 
@@ -44,7 +50,7 @@ class Thinreports::Template::CLI::Actions
             s.ref_id,
             s.display?,
             s.multiple?,
-            (@params[s.id] || s.value),
+            (@options[s.id] || s.value),
             s.format_base,
             s.format_type,
             format_value,
