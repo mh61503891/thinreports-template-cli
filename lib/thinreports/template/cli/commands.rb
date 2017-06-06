@@ -36,8 +36,8 @@ module Thinreports::Template::CLI::Base
     desc('info TLF', 'Display info of a TLF file')
     class_option(:config)
     params.each{ |param| method_option(param) }
-    define_method(:info){ |style|
-      puts Thinreports::Template::CLI::Actions.new(style, options.dup).info
+    define_method(:info){ |layout|
+      puts Thinreports::Template::CLI::Actions.new(layout, options.dup).info
     }
   end
 
@@ -45,8 +45,8 @@ module Thinreports::Template::CLI::Base
     desc('generate TLF', 'Generate a PDF file from a TLF file')
     class_option(:config)
     params.each{ |param| method_option(param) }
-    define_method(:generate){ |style|
-      puts Thinreports::Template::CLI::Actions.new(style, options.dup).generate
+    define_method(:generate){ |layout|
+      puts Thinreports::Template::CLI::Actions.new(layout, options.dup).generate
     }
   end
 
@@ -54,8 +54,8 @@ module Thinreports::Template::CLI::Base
     desc('config TLF', 'Generate a config file from a TLF file')
     class_option(:config)
     params.each{ |param| method_option(param) }
-    define_method(:config){ |style|
-      puts Thinreports::Template::CLI::Actions.new(style, options.dup).config
+    define_method(:config){ |layout|
+      puts Thinreports::Template::CLI::Actions.new(layout, options.dup).config
     }
   end
 
