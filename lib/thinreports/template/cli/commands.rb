@@ -16,7 +16,8 @@ using Thinreports::Template::CLI::Utils
 module Thinreports::Template::CLI::Base
 
   def build(argv=[])
-    if layout = argv[1] && layout && FileTest.file?(layout)
+    layout = argv[1]
+    if layout && FileTest.file?(layout)
       params = Thinreports::Report.new(layout:layout).textblocks.map(&:id)
       define_commands(params)
     else
