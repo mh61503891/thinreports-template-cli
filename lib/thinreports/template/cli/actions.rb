@@ -1,14 +1,7 @@
 require 'thinreports'
 require 'yaml'
-require 'date'
-require 'era_ja'
 require 'terminal-table'
-
-class String
-  def strftime(format)
-    DateTime.parse(self).to_era(format)
-  end
-end
+require 'thinreports/template/cli/datetime'
 
 class Thinreports::Template::CLI::Actions
 
