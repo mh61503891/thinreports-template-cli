@@ -1,17 +1,7 @@
 require 'thinreports'
 require 'thor'
+require 'thinreports/template/cli/report'
 require 'thinreports/template/cli/actions'
-
-module Thinreports::Template::CLI::Utils
-  refine Thinreports::Report::Base do
-    def textblocks
-      default_layout.format.shapes.values.select{ |s|
-        s.type == Thinreports::Core::Shape::TextBlock::TYPE_NAME
-      }
-    end
-  end
-end
-using Thinreports::Template::CLI::Utils
 
 module Thinreports::Template::CLI::Base
 
