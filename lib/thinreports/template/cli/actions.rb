@@ -1,7 +1,7 @@
 require 'thinreports/template/cli/datetime'
 require 'thinreports/template/cli/report'
 require 'thinreports'
-require 'terminal-table'
+require 'tty-table'
 require 'yaml'
 
 module Thinreports
@@ -20,27 +20,24 @@ module Thinreports
 
         def info
           create
-          return Terminal::Table.new({title:@report.default_layout.format.report_title}) do |table|
-            @report.textblocks&.each.with_index do |shape, index|
-              if index.zero?
-                table << %w(id ref_id disp? multi value option_value real_value fmt_base fmt_type fmt_value desc)
-                table << :separator
-              end
-              table << [
-                shape.id,
-                shape.ref_id,
-                shape.display?,
-                shape.multiple?,
-                shape.value,
-                @options[shape.id].to_s,
-                @report.page.manager.shapes[shape.id.to_sym]&.internal&.real_value,
-                shape.format_base,
-                shape.format_type,
-                shape.format_value,
-                shape.attributes['description']
-              ]
-            end
+          header = %w(id ref_id disp? multi default_value option_value real_value fmt_base fmt_type fmt_value desc)
+          table = TTY::Table.new(header:header)
+          @report.textblocks&.each.with_index do |shape, index|
+            table << [
+              shape.id,
+              shape.ref_id,
+              shape.display?,
+              shape.multiple?,
+              shape.value,
+              @options[shape.id].to_s,
+              @report.page.manager.shapes[shape.id.to_sym]&.internal&.real_value,
+              shape.format_base,
+              shape.format_type,
+              shape.format_value,
+              shape.attributes['description']
+            ]
           end
+          TTY::Table::Renderer::ASCII.new(table).render
         end
 
         def config
