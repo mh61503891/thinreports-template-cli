@@ -37,29 +37,26 @@ module Thinreports
 
         def info
           return Terminal::Table.new(title:@report.default_layout.format.report_title) do |table|
-            textblocks = @report.default_layout.format.shapes.values.select{ |v|
-              v.type == Thinreports::Core::Shape::TextBlock::TYPE_NAME
-            }
-            if !textblocks.empty?
-              table << %w(id ref_id display? multiple? value format_base format_type format_value description)
-              table << :separator
-              textblocks.each do |s|
-                format_value = ''
-                format_value << s.format_datetime_format if s.format_datetime_format
-                format_value << "delimiter=[#{s.format_number_delimiter}]" if s.format_number_delimiter
-                format_value << "/precision=[#{s.format_number_precision}]" if s.format_number_precision
-                table << [
-                  s.id,
-                  s.ref_id,
-                  s.display?,
-                  s.multiple?,
-                  (@options[s.id] || s.value),
-                  s.format_base,
-                  s.format_type,
-                  format_value,
-                  s.attributes['description']
-                ]
+            @report.textblocks&.each.with_index do |s, index|
+              if index.zero?
+                table << %w(id ref_id display? multiple? value format_base format_type format_value description)
+                table << :separator
               end
+              format_value = ''
+              format_value << s.format_datetime_format if s.format_datetime_format
+              format_value << "delimiter=[#{s.format_number_delimiter}]" if s.format_number_delimiter
+              format_value << "/precision=[#{s.format_number_precision}]" if s.format_number_precision
+              table << [
+                s.id,
+                s.ref_id,
+                s.display?,
+                s.multiple?,
+                (@options[s.id] || s.value),
+                s.format_base,
+                s.format_type,
+                format_value,
+                s.attributes['description']
+              ]
             end
           end
         end
