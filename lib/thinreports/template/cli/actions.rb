@@ -37,25 +37,22 @@ module Thinreports
 
         def info
           return Terminal::Table.new(title:@report.default_layout.format.report_title) do |table|
-            @report.textblocks&.each.with_index do |s, index|
+            @report.textblocks&.each.with_index do |shape, index|
               if index.zero?
-                table << %w(id ref_id display? multiple? value format_base format_type format_value description)
+                table << %w(id ref_id display? multiple? value option_value format_base format_type format_value description)
                 table << :separator
               end
-              format_value = ''
-              format_value << s.format_datetime_format if s.format_datetime_format
-              format_value << "delimiter=[#{s.format_number_delimiter}]" if s.format_number_delimiter
-              format_value << "/precision=[#{s.format_number_precision}]" if s.format_number_precision
               table << [
-                s.id,
-                s.ref_id,
-                s.display?,
-                s.multiple?,
-                (@options[s.id] || s.value),
-                s.format_base,
-                s.format_type,
-                format_value,
-                s.attributes['description']
+                shape.id,
+                shape.ref_id,
+                shape.display?,
+                shape.multiple?,
+                shape.value,
+                @options[shape.id],
+                shape.format_base,
+                shape.format_type,
+                shape.format_value,
+                shape.attributes['description']
               ]
             end
           end
