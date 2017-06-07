@@ -23,6 +23,10 @@ module Thinreports
           @datetime.to_era(format)
         end
 
+        def to_s
+          @datetime.to_s
+        end
+
       end
     end
   end

@@ -15,31 +15,15 @@ module Thinreports
         end
 
         def generate
-          @report.start_new_page
-          @report.default_layout.format.shapes.values.each do |shape|
-            case shape.type
-            when Thinreports::Core::Shape::TextBlock::TYPE_NAME
-              if shape.has_format?
-                case shape.format_type
-                when 'datetime'
-                  if @options[shape.id]
-                   @options[shape.id] = DateTime.parse(@options[shape.id])
-                  else
-                   @options[shape.id] = shape.value.empty? ? DateTime.now : DateTime.parse(shape.value)
-                  end
-                end
-              end
-            end
-          end
-          @report.page.values(@options)
-          @report.generate
+          create && @report.generate
         end
 
         def info
-          return Terminal::Table.new(title:@report.default_layout.format.report_title) do |table|
+          create
+          return Terminal::Table.new({title:@report.default_layout.format.report_title}) do |table|
             @report.textblocks&.each.with_index do |shape, index|
               if index.zero?
-                table << %w(id ref_id display? multiple? value option_value format_base format_type format_value description)
+                table << %w(id ref_id disp? multi value option_value real_value fmt_base fmt_type fmt_value desc)
                 table << :separator
               end
               table << [
@@ -48,7 +32,8 @@ module Thinreports
                 shape.display?,
                 shape.multiple?,
                 shape.value,
-                @options[shape.id],
+                @options[shape.id].to_s,
+                @report.page.manager.shapes[shape.id.to_sym]&.internal&.real_value,
                 shape.format_base,
                 shape.format_type,
                 shape.format_value,
@@ -66,6 +51,28 @@ module Thinreports
             end
           end
           YAML.dump(@config2)
+        end
+
+        private
+
+        def create
+          @report.start_new_page
+          @report.default_layout.format.shapes.values.each do |shape|
+            case shape.type
+            when Thinreports::Core::Shape::TextBlock::TYPE_NAME
+              if shape.has_format?
+                case shape.format_type
+                when 'datetime'
+                  if @options[shape.id]
+                   @options[shape.id] = DateTime.parse(@options[shape.id])
+                  else
+                   @options[shape.id] = shape.value.empty? ? DateTime.now : DateTime.parse(shape.value)
+                  end
+                end
+              end
+            end
+          end
+          @report.page.values(@options)
         end
 
       end
