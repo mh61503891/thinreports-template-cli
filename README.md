@@ -47,13 +47,13 @@ Thinreports Layout File Options
 Output to a PDF file.
 
 ```bash
-$ thinreports-template-cli sample.tlf --name="Your name" --date=2017-04-01" --format=pdf > sample.pdf
+$ thinreports-template-cli sample.tlf --name="Your name" --date="2017-04-01" --format=pdf > sample.pdf
 ```
 
 Output to a printer via the lpr command.
 
 ```bash
-$ thinreports-template-cli sample.tlf --name="Your name" --date=2017-04-01" --format=pdf | lpr -P ApeosPort_V_C3375__aa_bb_cc_
+$ thinreports-template-cli sample.tlf --name="Your name" --date="2017-04-01" --format=pdf | lpr -P ApeosPort_V_C3375__aa_bb_cc_
 ```
 
 ## License
