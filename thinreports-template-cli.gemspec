@@ -1,10 +1,10 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'thinreports/template/cli/version'
+require 'thinreports/template-cli/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'thinreports-template-cli'
-  spec.version       = Thinreports::Template::CLI::VERSION
+  spec.version       = Thinreports::TemplateCLI::VERSION
   spec.authors       = ['Masayuki Higashino']
   spec.email         = ['msyk@hgsn.info']
   spec.summary       = %q{A command line tool to generate a PDF file from TLF with command line options and YAML config file.}
