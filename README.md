@@ -2,6 +2,8 @@
 
 # Thinreports Templete CLI
 
+This command line tool is based on [Thinreports](https://rubygems.org/gems/thinreports).
+
 ## Installation
 
 ```sh
