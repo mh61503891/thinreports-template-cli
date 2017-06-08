@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'thinreports/template/cli'
+require 'thinreports/template-cli'
 
-Thinreports::Template::CLI::Commands.build(ARGV)
-Thinreports::Template::CLI::Commands.start(ARGV)
+Thinreports::TemplateCLI::CLI.build(ARGV)
+Thinreports::TemplateCLI::CLI.start(ARGV)
