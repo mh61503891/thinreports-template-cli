@@ -17,7 +17,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 2.3.0'
   spec.add_dependency 'thinreports', '0.10.0'
-  spec.add_dependency 'thor', '0.19.4'
   spec.add_dependency 'era_ja', '0.5.2'
   spec.add_dependency 'tty-table', '0.8.0'
   spec.add_development_dependency 'bundler', '~> 1.15'
