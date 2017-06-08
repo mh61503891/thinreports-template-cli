@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = Thinreports::TemplateCLI::VERSION
   spec.authors       = ['Masayuki Higashino']
   spec.email         = ['msyk@hgsn.info']
-  spec.summary       = %q{A command line tool to generate a PDF file from TLF with command line options and YAML config file.}
+  spec.summary       = %q{A command line tool to generate a PDF file from TLF file with command line options.}
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/mh61503891/thinreports-template-cli'
   spec.license       = 'MIT'
